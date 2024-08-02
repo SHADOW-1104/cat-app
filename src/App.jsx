@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 export const App = () => {
-  const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact';
-  const [fact, setFact] = useState('');
-  const [words, setWords] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact'
+  const [fact, setFact] = useState('')
+  const [words, setWords] = useState('')
+  const [imgUrl, setImgUrl] = useState('')
+
 
   useEffect(() => {
     fetch(CAT_ENDPOINT_RANDOM_FACT)
       .then(res => res.json())
       .then(data => {
-        const fact = data.fact;
-        setFact(fact);
-        const words = fact.split(' ').slice(0, 3).join(' ');
-        setWords(words);
-        console.log(words)
+        const hecho = data.fact
+        setFact(hecho)
+        const words = hecho.split(' ').slice(0, 3).join(' ')
+        setWords(words)
       })
-      .catch(error => console.error('Error fetching cat fact:', error));
-  }, []);
+      .catch(error => console.error('Error del hecho:', error))
+  }, [])
 
   useEffect(() => {
     if (words) {
@@ -25,35 +25,30 @@ export const App = () => {
         `)
         .then(response => {
           if (response.ok) {
-            setImgUrl(response.url);
+            setImgUrl(response.url)
           } else {
-            console.error('Error fetching image:', response.statusText);
+            console.error('Error fetching image:')
           }
         })
-        .catch(error => console.error('Fetch error:', error));
+        .catch(error => console.error('Fetch error:', error))
     }
-  }, [words]);
+  }, [words])
 
   return (
     <main>
       <h1>App de Gatos</h1>
       <section>
-      {fact ? <p>{fact}</p> : <p>Loading...</p>}
-      {imgUrl ? <img className="img" src={imgUrl} alt="Cat saying something" /> : <p>Loading...</p>}
+        {fact && <p>{fact}</p>}
+        {imgUrl ? <img className="img" src={imgUrl} alt="Cat saying something" /> : <p>Loading...</p>}
       </section>
     </main>
-  );
-};
+  )
+}
 
 
 
 
-
-
-
-
-
-
+// OTRA FORMA DE HACERLO
 
 //   useEffect(() => {
 //     fetch(CAT_ENDPOINT_RANDOM_FACT)
