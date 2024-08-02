@@ -4,6 +4,7 @@
     box-sizing: border-box;
     scroll-behavior: smooth;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    outline: none;
 }
 
 ::-webkit-scrollbar{
@@ -13,21 +14,51 @@
 body{
     text-align: center;
     height: 100vh;
-    display: grid;
-    place-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #fff;
     background-color: #222;
 }
 
+h1, p, img{
+    margin-bottom: 2rem;
+}
+
 section{
+    position: relative;
     display: grid;
     place-items: center;
-    gap: 2rem;
+}
+
+.words{
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 5px black;
+    position: absolute;
+    bottom: 15%;
 }
 
 img{
+    border-radius: 10px;
+    box-shadow: 0 0 20px 2px black;
     max-width: 320px;
-    height: auto;
+    max-height: 300px;
+}
+
+button{
+    color: aqua;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 2px solid aqua;
+    border-radius: 10px;
+    background-color: transparent;
+    transition: all .3s ease;
+}
+
+button:hover{
+    color: #222;
+    background-color: aqua;
 }
 
 

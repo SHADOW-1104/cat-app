@@ -1,45 +1,53 @@
 import { useEffect, useState } from "react"
 
 export const App = () => {
-  const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact'
+  const DOG_ENDPOINT_RANDOM_FACT = 'https://dog-api.kinduff.com/api/facts'
+  const DOG_RANDOM_IMG_ENDPOINT = 'https://dog.ceo/api/breeds/image/random'
   const [fact, setFact] = useState('')
   const [words, setWords] = useState('')
   const [imgUrl, setImgUrl] = useState('')
 
+  const fetchFact = () => {
 
+    fetch(DOG_ENDPOINT_RANDOM_FACT)
+    .then(res => res.json())
+    .then(data => {
+      const hecho = data.facts[0]
+      setFact(hecho)
+      const words = hecho.split(' ').slice(0,2).join(' ')
+      setWords(words)
+      console.log(words)
+    })
+    .catch(error => console.error('Error del hecho:', error))
+  }
+  
   useEffect(() => {
-    fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then(res => res.json())
-      .then(data => {
-        const hecho = data.fact
-        setFact(hecho)
-        const words = hecho.split(' ').slice(0, 3).join(' ')
-        setWords(words)
-      })
-      .catch(error => console.error('Error del hecho:', error))
+    fetchFact()
   }, [])
 
   useEffect(() => {
-    if (words) {
-      fetch(`https://cataas.com/cat/says/${words}?fontSize=60&fontColor=white
-        `)
-        .then(response => {
-          if (response.ok) {
-            setImgUrl(response.url)
-          } else {
-            console.error('Error fetching image:')
-          }
-        })
-        .catch(error => console.error('Fetch error:', error))
-    }
+    if (!words) return
+      fetch(DOG_RANDOM_IMG_ENDPOINT)
+      .then(res => {
+        if (!res.ok){
+          throw new Error (`HTTP error! status: ${res.status}`)
+        }
+        return res.json()
+      })
+      .then(data => {
+        setImgUrl(data.message)
+      })
+      .catch(error => console.error('Fetch error aqui esta el pedo:', error));
   }, [words])
 
   return (
     <main>
-      <h1>App de Gatos</h1>
+      <h1>App de Perrones</h1>
       <section>
         {fact && <p>{fact}</p>}
+        {words && <p className="words">{words}</p>}
         {imgUrl ? <img className="img" src={imgUrl} alt="Cat saying something" /> : <p>Loading...</p>}
+        <button type="button" onClick={fetchFact}>New Fact</button>
       </section>
     </main>
   )
